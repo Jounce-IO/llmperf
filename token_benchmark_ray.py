@@ -22,19 +22,8 @@ from llmperf.utils import (
     sample_random_positive_int,
 )
 from tqdm import tqdm
+from transformers import LlamaTokenizerFast
 
-from transformers import LlamaTokenizerFast, AutoTokenizer
-
-
-def get_tokenizer(model: str) -> LlamaTokenizerFast | AutoTokenizer:
-    # model = model.replace("huggingface/", "")
-    # return AutoTokenizer.from_pretrained(model, trust_remote_code=True)
-    # -----------------
-    # Implementing https://jounce.atlassian.net/browse/JN-771 and https://jounce.atlassian.net/browse/JN-772
-    tokenizer = LlamaTokenizerFast.from_pretrained(
-        "hf-internal-testing/llama-tokenizer"
-    )
-    return tokenizer
 
 def get_token_throughput_latencies(
     model: str,
@@ -72,7 +61,9 @@ def get_token_throughput_latencies(
     """
     random.seed(11111)
 
-    tokenizer = get_tokenizer(model=model)
+    tokenizer = LlamaTokenizerFast.from_pretrained(
+        "hf-internal-testing/llama-tokenizer"
+    )
     get_token_length = lambda text: len(tokenizer.encode(text))
 
     if not additional_sampling_params:
