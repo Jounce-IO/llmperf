@@ -23,7 +23,7 @@ class OpenAIChatCompletionsClient(LLMClient):
             {"role": "system", "content": ""},
             {"role": "user", "content": prompt},
         ]
-        model = request_config.model
+        model = request_config.model_config
         body = {
             "model": model,
             "messages": message,
@@ -87,7 +87,7 @@ class OpenAIChatCompletionsClient(LLMClient):
                         error_msg = data["error"]["message"]
                         error_response_code = data["error"]["code"]
                         raise RuntimeError(data["error"]["message"])
-                        
+
                     delta = data["choices"][0]["delta"]
                     if delta.get("content", None):
                         if not ttft:

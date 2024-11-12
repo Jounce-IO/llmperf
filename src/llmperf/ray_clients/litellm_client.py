@@ -27,14 +27,14 @@ class LiteLLMClient(LLMClient):
             request_config.llm_api is not None
         ), "the request config's llm_api must be set."
         if request_config.llm_api == "litellm":
-            model = request_config.model
+            model = request_config.model_config
         else:
-            model = request_config.llm_api + "/" + request_config.model
+            model = request_config.llm_api + "/" + request_config.model_config
         validation_result = validate_environment(model)
         if validation_result["missing_keys"]:
             raise ValueError(
                 f"The following environment vars weren't found but were necessary for "
-                f"the model {request_config.model}: {validation_result['missing_keys']}"
+                f"the model {request_config.model_config}: {validation_result['missing_keys']}"
             )
         body = {
             "model": model,

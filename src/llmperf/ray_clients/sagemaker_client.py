@@ -39,7 +39,7 @@ class SageMakerClient(LLMClient):
             {"role": "system", "content": ""},
             {"role": "user", "content": prompt},
         ]
-        model = request_config.model
+        model = request_config.model_config
         sm_runtime = boto3.client(
             "sagemaker-runtime", region_name=os.environ.get("AWS_REGION_NAME")
         )
